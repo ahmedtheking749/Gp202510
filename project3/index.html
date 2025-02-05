@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Number Guessing Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f7f7f7;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      color: #333;
+      margin-top: 50px;
+    }
+    .game-container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      display: inline-block;
+      margin-top: 50px;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+      margin: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .feedback {
+      font-size: 18px;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Number Guessing Game</h1>
+
+  <div class="game-container">
+    <p>Guess a number between 1 and 100:</p>
+    <input type="number" id="guessInput" min="1" max="100" placeholder="Enter your guess" />
+    <button onclick="checkGuess()">Guess</button>
+
+    <div id="feedback" class="feedback"></div>
+    <button id="resetBtn" onclick="resetGame()" style="display:none;">Play Again</button>
+  </div>
+
+  <script>
+    let secretNumber = Math.floor(Math.random() * 100) + 1;
+    let attempts = 0;
+
+    function checkGuess() {
+      const guessInput = document.getElementById('guessInput');
+      const feedback = document.getElementById('feedback');
+      const guess = parseInt(guessInput.value);
+      attempts++;
+
+      if (isNaN(guess) || guess < 1 || guess > 100) {
+        feedback.textContent = "Please enter a number between 1 and 100.";
+        feedback.style.color = "red";
+      } else if (guess > secretNumber) {
+        feedback.textContent = "Too high! Try again.";
+        feedback.style.color = "orange";
+      } else if (guess < secretNumber) {
+        feedback.textContent = "Too low! Try again.";
+        feedback.style.color = "orange";
+      } else {
+        feedback.textContent = `Congratulations! You guessed the right number in ${attempts} attempts.`;
+        feedback.style.color = "green";
+        document.getElementById('resetBtn').style.display = "inline-block";
+        document.querySelector('button').disabled = true;
+        guessInput.disabled = true;
+      }
+    }
+
+    function resetGame() {
+      secretNumber = Math.floor(Math.random() * 100) + 1;
+      attempts = 0;
+      document.getElementById('feedback').textContent = "";
+      document.getElementById('resetBtn').style.display = "none";
+      document.querySelector('button').disabled = false;
+      document.getElementById('guessInput').disabled = false;
+      document.getElementById('guessInput').value = "";
+    }
+  </script>
+
+</body>
+</html>
